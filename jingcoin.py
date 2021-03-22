@@ -3,6 +3,7 @@ import os
 import json
 from discord.ext import commands
 import random
+from login import token
 
 
 os.chdir(r"C:\Users\jinge\OneDrive\Desktop\Coding\Discord Bot\Jingcoin")
@@ -102,4 +103,4 @@ async def beg(ctx):
 
 
 
-client.run("ODIyOTkwNzQ1NTkzNTc3NDcz.YFaT3A.1gzocnqqu9W7nxTSbjRU0OC_m4M")
+client.run(token)
