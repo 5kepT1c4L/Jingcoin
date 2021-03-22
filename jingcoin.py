@@ -1,13 +1,14 @@
-import discord
-import os
 import json
-from discord.ext import commands
+import os
 import random
+
+import discord
+from discord.ext import commands
 from login import token
 
 os.chdir(r"C:\Users\jinge\OneDrive\Desktop\Coding\Discord Bot\Jingcoin")
 
-client = commands.Bot(command_prefix = ',')
+client = commands.Bot(command_prefix=',')
 client.remove_command('help')
 
 
@@ -33,14 +34,11 @@ async def stats(ctx):
         colour=discord.Colour.dark_red()
     )
     bal_embed.add_field(name="__" + "Coins" + "__", value=wallet_amt)
-    bal_embed.add_field(name="__" + "Jingcoins" + "__", value=jingcoin_amt,inline=False)
+    bal_embed.add_field(name="__" + "Jingcoins" + "__", value=jingcoin_amt, inline=False)
     await ctx.send(embed=bal_embed)
 
 
-
-
 async def open_account(user):
-
     users = await get_bank_data()
 
     if str(user.id) in users:
@@ -54,33 +52,33 @@ async def open_account(user):
         json.dump(users, f)
     return True
 
+
 async def get_bank_data():
     with open("jingcoin.json", "r") as f:
         users = json.load(f)
     return users
 
 
-
 @client.command()
+@commands.cooldown(1, 5, commands.BucketType.user)
 async def beg(ctx):
     await open_account(ctx.author)
     user = ctx.author
     users = await get_bank_data()
 
-
     coins_recieved = random.randint(15, 61)
 
     people_beg_list = [
-                'John Cena',
-                'Barack Obama',
-                'George Bush',
-                'Joe Mama',
-                "Mr. Clark"]
+        'John Cena',
+        'Barack Obama',
+        'George Bush',
+        'Joe Mama',
+        "Mr. Clark"]
     users[str(user.id)]["Coins"] += coins_recieved
     coins_begged_embed = discord.Embed(
-    title= "You begged and " + random.choice(people_beg_list) + " gave you %s coins!" % (coins_recieved),
-    colour = discord.Colour.red(),
-    description=None
+        title="You begged and " + random.choice(people_beg_list) + " gave you %s coins!" % (coins_recieved),
+        colour=discord.Colour.red(),
+        description=None
     )
     coins_begged_embed.set_author(name=f"{ctx.author}'s command", icon_url=ctx.author.avatar_url)
     await ctx.send(embed=coins_begged_embed)
@@ -113,17 +111,10 @@ async def rob(ctx, member:discord.Member):
             json.dump(users, f)
         return True
 
-    elif chances_of_robbed > 9 and users[str(member.id)]["Coins"] >= 500:
-
-
-
-
-
-
-
-
-
-
+@beg.error
+async def on_beg_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        return await ctx.send("Stop spamming so much! You can use the command in {:.2f} seconds".format(error.retry_after))
 
 
 client.run(token)
