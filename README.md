@@ -1,0 +1,2 @@
+# Jingcoin
+Jingcoin Bot
