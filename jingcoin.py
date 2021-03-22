@@ -114,7 +114,13 @@ async def rob(ctx, member:discord.Member):
 @beg.error
 async def on_beg_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
-        return await ctx.send("Stop spamming so much! You can use the command in {:.2f} seconds".format(error.retry_after))
+        beg_too_fast = discord.Embed(
+            title="WOAH calm your horse mate! You can use the command in {:.2f} seconds".format(error.retry_after),
+            colour=discord.Colour.dark_red(),
+            description=None
+        )
+        beg_too_fast.set_author(name=f"{ctx.author}'s command", icon_url=ctx.author.avatar_url)
+        return await ctx.send(embed=beg_too_fast)
 
 
 client.run(token)
