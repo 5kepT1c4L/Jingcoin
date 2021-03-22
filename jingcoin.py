@@ -137,6 +137,14 @@ async def rob(ctx, member:discord.Member):
 
 
 
+
+
+
+
+
+
+
+#errors
 @rob.error
 async def on_rob_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
