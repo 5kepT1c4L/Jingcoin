@@ -5,7 +5,6 @@ from discord.ext import commands
 import random
 from login import token
 
-
 os.chdir(r"C:\Users\jinge\OneDrive\Desktop\Coding\Discord Bot\Jingcoin")
 
 client = commands.Bot(command_prefix = ',')
@@ -83,14 +82,38 @@ async def beg(ctx):
     colour = discord.Colour.red(),
     description=None
     )
+    coins_begged_embed.set_author(name=f"{ctx.author}'s command", icon_url=ctx.author.avatar_url)
     await ctx.send(embed=coins_begged_embed)
     with open("jingcoin.json", "w") as f:
-        users = json.dump(users, f)
+        json.dump(users, f)
+    return True
 
 
 
+@client.command()
+async def rob(ctx, member:discord.Member):
+    await open_account(ctx.author)
+    user = ctx.author
+    users = await get_bank_data()
+    chances_of_robbed = random.randint(1,21)
+    if chances_of_robbed <= 9 and users[str(member.id)]["Coins"] >= 500:
+        amt_robbed = random.randint(300, users[str(member.id)]["Coins"])
+        users[str(user.id)]["Coins"] += amt_robbed
+        users[str(member.id)]["Coins"] -= amt_robbed
 
+        robbed_embed = discord.Embed(
+            title=f"NICE! You managed to rob %s coins from {member}!" % (amt_robbed),
+            colour=discord.Colour.green(),
+            description=None
+        )
+        robbed_embed.set_author(name=f"{ctx.author}'s command", icon_url=ctx.author.avatar_url)
+        robbed_embed.set_image(url="https://cdn.discordapp.com/attachments/822980593137614918/823565142297411584/Armed-Robbery-Charge.png")
+        await ctx.send(embed=robbed_embed)
+        with open("jingcoin.json", "w") as f:
+            json.dump(users, f)
+        return True
 
+    elif chances_of_robbed > 9 and users[str(member.id)]["Coins"] >= 500:
 
 
 
