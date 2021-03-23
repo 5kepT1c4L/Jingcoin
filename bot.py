@@ -34,11 +34,13 @@ async def on_ready():
 
 @tasks.loop(minutes=1)
 async def save_sql():
+    await sql_client
     await sql_client.save()
 
 
 def start():
     import commands as bot_cmds  # NOQA
+    save_sql.start()
     client.run(token)
 
 

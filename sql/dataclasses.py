@@ -14,14 +14,16 @@ class User:
     def __setattr__(self, key: str, value):
         if not key.startswith("_"):
             self._changed = True
+        super().__setattr__(key, value)
 
 
 class ChangeDict(MM, MutableMapping[str, str]):
-    __slots__ = ("dict", "changed")
+    __slots__ = ("dict", "changed", "deleted")
 
     def __init__(self, iterable=None):
         self.dict = dict(iterable) if iterable else {}
         self.changed = False
+        self.deleted = []
 
     def __setitem__(self, k, v):
         self.dict[k] = v
@@ -29,6 +31,7 @@ class ChangeDict(MM, MutableMapping[str, str]):
 
     def __delitem__(self, v):
         del self.dict[v]
+        self.deleted.append(v)
         self.changed = True
 
     def __getitem__(self, k):
