@@ -46,6 +46,6 @@ class AsyncSQLiteClient:
             pass
         if self.options.changed:
             async with self.conn.executemany("""INSERT OR REPLACE INTO OPTIONS(NAME, VALUE) VALUES (?, ?)""",
-                                             [(k, json.dumps(v) for k, v in self.options.items())]):
+                                             [((k, json.dumps(v)) for k, v in self.options.items())]):
                 pass
             self.options.changed = False

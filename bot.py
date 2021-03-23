@@ -10,8 +10,17 @@ os.chdir(os.path.dirname(__file__))
 
 client = commands.Bot(command_prefix=',')
 client.remove_command('help')
+og_close = client.close
 
 sql_client = AsyncSQLiteClient()
+
+
+async def new_close():
+    await sql_client.save()
+    await og_close()
+
+
+client.close = new_close
 
 
 @client.event
