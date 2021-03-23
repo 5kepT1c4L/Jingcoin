@@ -1,6 +1,6 @@
 import discord
 
-from ..bot import client, sql_client
+from bot import client, sql_client
 
 
 @client.command()
