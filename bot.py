@@ -26,6 +26,7 @@ client.close = new_close
 @client.event
 async def on_ready():
     await client.change_presence(status=discord.Status.idle, activity=discord.Game('To the MOOOOOON!!'))
+    await sql_client
     await sql_client.create()
     await sql_client.load()
     print("Bot is up and running baby!")
@@ -39,6 +40,7 @@ async def save_sql():
 def start():
     import commands as bot_cmds  # NOQA
     client.run(token)
+
 
 if __name__ == '__main__':
     start()

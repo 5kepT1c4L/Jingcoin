@@ -12,7 +12,7 @@ class AsyncSQLiteClient:
         return self.conn.execute
 
     def __init__(self, path: str = "database.sqlite.db"):
-        self.conn = connect(path)
+        self.conn = connect(path, isolation_level=None)
         self.cache = {}
         self.options = ChangeDict()
 
@@ -31,6 +31,9 @@ class AsyncSQLiteClient:
                 self.cache[user_id]._new = False
         async with self.conn.execute("""SELECT NAME, VALUE FROM OPTIONS""") as cursor:
             self.options = ChangeDict({k: json.loads(v) async for k, v in cursor})
+
+    def __await__(self):
+        await self.conn
 
     def get(self, user_id: int):
         return self.cache.setdefault(user_id, User(user_id, 0))
