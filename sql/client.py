@@ -33,7 +33,7 @@ class AsyncSQLiteClient:
             self.options = ChangeDict({k: json.loads(v) async for k, v in cursor})
 
     def __await__(self):
-        await self.conn
+        self.conn.__await__()
 
     def get(self, user_id: int):
         return self.cache.setdefault(user_id, User(user_id, 0))
