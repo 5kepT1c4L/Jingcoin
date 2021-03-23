@@ -1,9 +1,9 @@
 import os
 
 import discord
-from discord.ext import commands
-from discord.ext import tasks
+from discord.ext import commands, tasks
 from login import token  # NOQA
+
 from sql.client import AsyncSQLiteClient
 
 os.chdir(os.path.dirname(__file__))
@@ -12,6 +12,7 @@ client = commands.Bot(command_prefix=',')
 client.remove_command('help')
 
 sql_client = AsyncSQLiteClient()
+
 
 @client.event
 async def on_ready():
@@ -24,6 +25,7 @@ async def on_ready():
 @tasks.loop(minutes=1)
 async def save_sql():
     await sql_client.save()
+
 
 def start():
     import commands as bot_cmds  # NOQA
