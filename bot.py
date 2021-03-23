@@ -39,7 +39,9 @@ async def save_sql():
 
 
 def start():
-    import commands as bot_cmds  # NOQA
+    for file in os.listdir("commands"):
+        if not file.startswith("_") and file.endswith(".py"):
+            client.load_extension("commands."+file[:-3])
     save_sql.start()
     client.run(token)
 

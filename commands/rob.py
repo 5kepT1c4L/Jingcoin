@@ -3,12 +3,12 @@ import random
 import discord
 from discord.ext import commands
 
-from bot import client, sql_client
+from bot import sql_client
 
 
-@client.command()
+@commands.command()
 async def rob(ctx, member: discord.Member):
-    await client.wait_until_ready()
+    await ctx.bot.wait_until_ready()
     user_robbing = sql_client.get(ctx.author.id)
     user_robbed = sql_client.get(member.id)
 
@@ -57,3 +57,7 @@ async def on_rob_error(ctx, error):
         rob_too_fast.set_author(name=f"{ctx.author}'s command", icon_url=ctx.author.avatar_url)
 
         return await ctx.send(embed=rob_too_fast)
+
+
+def setup(bot):
+    bot.add_command(rob)

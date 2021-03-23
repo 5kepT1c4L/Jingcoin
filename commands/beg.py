@@ -3,13 +3,13 @@ import random
 import discord
 from discord.ext import commands
 
-from bot import client, sql_client
+from bot import sql_client
 
 
-@client.command()
+@commands.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def beg(ctx):
-    await client.wait_until_ready()
+    await ctx.bot.wait_until_ready()
     user = sql_client.get(ctx.author.id)
 
     coins_recieved = random.randint(15, 61)
@@ -39,3 +39,6 @@ async def on_beg_error(ctx, error):
         )
         beg_too_fast.set_author(name=f"{ctx.author}'s command", icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=beg_too_fast)
+
+def setup(bot):
+    bot.add_command(beg)
