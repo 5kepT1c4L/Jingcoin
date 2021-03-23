@@ -20,7 +20,7 @@ class AsyncSQLiteClient:
         async with self.conn.execute(
                 """CREATE TABLE IF NOT EXISTS BANK(USER_ID INTEGER PRIMARY KEY, BALANCE INTEGER NOT NULL, STOCK INTEGER NOT NULL)"""):
             pass
-        async with self.conn.execute("""CREATE TABLE IF NOT EXISTS OPTIONS(NAME TEXT PRIMARY KEY, VALUE TEXT PRIMARY KEY )"""):
+        async with self.conn.execute("""CREATE TABLE IF NOT EXISTS OPTIONS(NAME TEXT PRIMARY KEY, VALUE TEXT NOT NULL)"""):
             pass
 
     async def load(self):
