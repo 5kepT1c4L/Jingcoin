@@ -32,13 +32,13 @@ class AsyncSQLiteClient:
         async with self.conn.execute("""SELECT NAME, VALUE FROM OPTIONS""") as cursor:
             self.options = ChangeDict({k: json.loads(v) async for k, v in cursor})
 
-    def _await(self):
-        yield self
+    async def _await(self):
+        return self
 
     def __await__(self):
         if not self.conn._connection:
             return self.conn.__await__()
-        return self._await()
+        return self._await().__await__()
 
     def get(self, user_id: int):
         return self.cache.setdefault(user_id, User(user_id, 0, 0))
