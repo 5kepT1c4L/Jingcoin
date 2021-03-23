@@ -39,3 +39,6 @@ async def save_sql():
 def start():
     import commands as bot_cmds  # NOQA
     client.run(token)
+
+if __name__ == '__main__':
+    start()
