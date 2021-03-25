@@ -33,6 +33,8 @@ async def on_leaderboard_error(ctx, error):
         embed = discord.Embed(title="Page Overflow", description=error.args[0])
         embed.add_field(name="Max Pages", value=str(error.max)).add_field(name="Page Requested", value=str(error.page))
         return await ctx.send(embed=embed)
+    else:
+        raise
 
 def setup(bot):
     bot.add_command(leaderboard)
