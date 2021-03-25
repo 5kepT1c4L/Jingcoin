@@ -11,6 +11,10 @@ class AsyncSQLiteClient:
     def execute(self):
         return self.conn.execute
 
+    @property
+    def users(self):
+        return self.cache.values()
+
     def __init__(self, path: str = "database.sqlite.db"):
         self.conn = connect(path, isolation_level=None)
         self.cache = {}
