@@ -57,6 +57,8 @@ async def on_rob_error(ctx, error):
         rob_too_fast.set_author(name=f"{ctx.author}'s command", icon_url=ctx.author.avatar_url)
 
         return await ctx.send(embed=rob_too_fast)
+    else:
+        raise
 
 
 def setup(bot):

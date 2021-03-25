@@ -39,6 +39,8 @@ async def on_beg_error(ctx, error):
         )
         beg_too_fast.set_author(name=f"{ctx.author}'s command", icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=beg_too_fast)
+    else:
+        raise
 
 def setup(bot):
     bot.add_command(beg)
